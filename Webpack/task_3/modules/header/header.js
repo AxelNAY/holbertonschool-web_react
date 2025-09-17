@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import "header.css";
+import "./header.css";
 
 $(document).ready(function() {
     $("header").prepend('<div id="logo"></div>');
