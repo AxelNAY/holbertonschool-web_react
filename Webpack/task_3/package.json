@@ -1,23 +1,28 @@
 {
   "name": "task_3",
   "version": "1.0.0",
-  "private": true,
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "build": "webpack",
     "start-dev": "webpack-dev-server --open"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "clean-webpack-plugin": "^4.0.0",
-    "css-loader": "^7.1.1",
-    "file-loader": "^6.2.0",
-    "html-webpack-plugin": "^5.6.0",
-    "image-webpack-loader": "^8.1.0",
-    "style-loader": "^4.0.0",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "*",
+    "clean-webpack-plugin": "*",
+    "html-webpack-plugin": "*",
+    "css-loader": "*",
+    "file-loader": "*",
+    "image-webpack-loader": "*",
+    "style-loader": "*",
+    "webpack": "*",
+    "webpack-cli": "*"
   },
   "dependencies": {
-    "jquery": "^3.7.1"
+    "jquery": "^3.7.1",
+    "lodash": "^4.17.21"
   }
 }
