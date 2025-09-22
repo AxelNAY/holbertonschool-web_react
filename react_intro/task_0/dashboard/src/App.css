@@ -1,0 +1,27 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.App-logo {
+  height: 80px;
+  width: auto;
+}
+
+.App-header {
+  color: #e1003c;
+  padding: 1rem;
+}
+
+.App-body {
+  border-top-color: #e1003c;
+  border-bottom-color: #e1003c;
+}
+
+.App-footer {
+  text-align: center;
+  font-style: italic;
+  padding: 0.5rem;
+}
