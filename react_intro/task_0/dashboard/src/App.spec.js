@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import App from './App.jsx'
 
 test('Verify if h1 contain School dashboard', () => {
+  render(<App />)
   const h1Element = screen.getByRole('heading', { 
     level: 1, 
     name: /school dashboard/i 
@@ -10,6 +11,7 @@ test('Verify if h1 contain School dashboard', () => {
 })
 
 test('Verify if the content of the two paragraph', () => {
+  render(<App />)
   const BodyParaph = screen.getByText('Login to access the full dashboard');
   expect(BodyParaph).toBeInTheDocument();
   expect(BodyParaph.tagName.toLowerCase()).toBe('p');
@@ -20,7 +22,8 @@ test('Verify if the content of the two paragraph', () => {
 })
 
 test('Verify if the image element is rendered', () => {
+  render(<App />)
   const Image = screen.getByAltText(/holberton logo/i);
   expect(Image).toBeInTheDocument();
-  expect(imgElement.tagName.toLowerCase()).toBe('img');
+  expect(Image.tagName.toLowerCase()).toBe('img');
 })
