@@ -20,6 +20,7 @@ test('Verify if the content of the two paragraph', () => {
 })
 
 test('Verify if the image element is rendered', () => {
-  const Image = screen.getByAltText('holberton logo');
+  const Image = screen.getByAltText(/holberton logo/i);
   expect(Image).toBeInTheDocument();
+  expect(imgElement.tagName.toLowerCase()).toBe('img');
 })
