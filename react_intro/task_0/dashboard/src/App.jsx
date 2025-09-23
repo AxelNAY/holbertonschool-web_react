@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import holbertonLogo from './assets/holberton-logo.jpg'
+import { getCurrentYear, getFooterCopy } from './utils.js'
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <p>Login to access the full dashboard</p>
       </div>
       <div class="App-footer">
-        <p>Copyright 2025 - holberton School</p>
+        <p>Copyright { getCurrentYear() } - { getFooterCopy(true) }</p>
       </div>
     </>
   )
