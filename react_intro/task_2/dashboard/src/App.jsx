@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import holbertonLogo from './assets/holberton-logo.jpg'
 import { getCurrentYear, getFooterCopy } from './utils.js'
