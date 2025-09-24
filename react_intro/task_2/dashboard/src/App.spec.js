@@ -15,7 +15,7 @@ test('Verify if the content of the two paragraph', () => {
   const BodyParaph = screen.getByText('Login to access the full dashboard');
   expect(BodyParaph).toBeInTheDocument();
 
-  const FooterParaph = screen.getByText(/copyright.*holberton school/i);
+  const FooterParaph = screen.getByText(/copyright.*holberton.*school/i);
   expect(FooterParaph).toBeInTheDocument();
 })
 
@@ -29,9 +29,11 @@ test('Verify if the 2 input elements are rendered', () => {
   render(<App />)
   const emailInput = screen.getByPlaceholderText(/email/i);
   expect(emailInput).toBeInTheDocument();
+  expect(emailInput.tagName.toLowerCase()).toBe('input');
 
   const passwordInput = screen.getByPlaceholderText(/password/i);
   expect(passwordInput).toBeInTheDocument();
+  expect(passwordInput.tagName.toLowerCase()).toBe('input');
 })
 
 test('Verify if the 2 label elements are rendered', () => {
