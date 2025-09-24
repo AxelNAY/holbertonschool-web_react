@@ -3,6 +3,10 @@ import { getLatestNotification } from './utils.js'
 import Close from './assets/close-button.png'
 
 function Notifications() {
+  const handleButtonClick = () => {
+    console.log('Close button has been clicked');
+  };
+
   return (
     <div class="notification-items">
       <p>Here is the list of notifications</p>
@@ -11,7 +15,7 @@ function Notifications() {
         <li data-priority>New resume available</li>
         <li dangerouslySetInnerHTML={{ __html: getLatestNotification() }}></li>
       </ul>
-      <button aria-label="Close"><img src={Close}/></button>
+      <button aria-label="Close" onClick={handleButtonClick}><img src={Close}/></button>
     </div>
   )
 }
