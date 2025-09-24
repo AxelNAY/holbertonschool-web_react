@@ -16,11 +16,11 @@ function App() {
       </div>
       <div class="App-body">
         <p>Login to access the full dashboard</p>
-        <label id="email">
+        <label id="email">Email
           <input placeholder='email'>
           </input>
         </label>
-        <label id="password">
+        <label id="password">Password
           <input placeholder='password'>
           </input>
         </label>
