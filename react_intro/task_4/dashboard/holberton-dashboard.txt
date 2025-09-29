@@ -1,1 +1,1 @@
-https://axelnay.github.io/react-intro/
+https://axelnay.github.io/holbertonschool-web_react/
