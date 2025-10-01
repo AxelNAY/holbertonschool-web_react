@@ -1,0 +1,29 @@
+.notification-items {
+    border-color: #e1003c;
+    border-style: dotted;
+    padding-left: 20px;
+    position: relative;
+}
+
+.notification-items button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.notification-items button img {
+    width: 15px;
+    height: 15px;
+}
+
+li:first-child {
+    color: blue;
+}
+
+li {
+    color: #e1003c;
+}
