@@ -26,7 +26,7 @@ function App() {
         <button>OK</button>
       </div>
       <div class="App-footer">
-        <p>Copyright { getCurrentYear() } - { getFooterCopy(true) }</p>
+        <p>Copyright { getCurrentYear() } { getFooterCopy(true) }</p>
       </div>
     </>
   )
