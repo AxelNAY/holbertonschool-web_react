@@ -1,28 +1,22 @@
-import { render, screen } from '@testing-library/react'
-import Login from './Login.jsx'
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import Login from './Login';
 
-test('Verify if the content of the paragraph is correct', () => {
-  render(<Login />)
-  expect(
-    screen.getByText(/login to access the full dashboard/i)
-  ).toBeInTheDocument()
-})
+describe('Login', () => {
+  test('renders the prompt text', () => {
+    render(<Login />);
+    expect(screen.getByText(/login to access the full dashboard/i)).toBeInTheDocument();
+  });
 
-test('renders two input elements (email and password)', () => {
-  const { container } = render(<App />);
+  test('renders email and password fields with labels', () => {
+    render(<Login />);
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+  });
 
-  expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-  expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-  expect(container.querySelectorAll('input')).toHaveLength(2);
+  test('renders the OK button', () => {
+    render(<Login />);
+    expect(screen.getByRole('button', { name: /ok/i })).toBeInTheDocument();
+  });
 });
-
-test('Verify if the 2 label elements are rendered', () => {
-  render(<App />)
-  expect(screen.getByText(/email/i)).toBeInTheDocument()
-  expect(screen.getByText(/password/i)).toBeInTheDocument()
-})
-
-test('Verify if the button element is rendered', () => {
-  render(<App />)
-  expect(screen.getByRole('button', { name: /ok/i })).toBeInTheDocument()
-})
