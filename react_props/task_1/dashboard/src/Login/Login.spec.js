@@ -8,19 +8,21 @@ test('Verify if the content of the paragraph is correct', () => {
   ).toBeInTheDocument()
 })
 
-test('Verify if the 2 input elements are rendered', () => {
-  render(<Login />)
-  expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument()
-  expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument()
-})
+test('renders two input elements (email and password)', () => {
+  const { container } = render(<App />);
+
+  expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+  expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+  expect(container.querySelectorAll('input')).toHaveLength(2);
+});
 
 test('Verify if the 2 label elements are rendered', () => {
-  render(<Login />)
+  render(<App />)
   expect(screen.getByText(/email/i)).toBeInTheDocument()
   expect(screen.getByText(/password/i)).toBeInTheDocument()
 })
 
 test('Verify if the button element is rendered', () => {
-  render(<Login />)
+  render(<App />)
   expect(screen.getByRole('button', { name: /ok/i })).toBeInTheDocument()
 })
