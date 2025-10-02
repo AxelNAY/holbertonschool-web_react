@@ -24,11 +24,14 @@ test('Verify if the image element is rendered', () => {
   expect(screen.getByAltText(/holberton logo/i)).toBeInTheDocument()
 })
 
-test('Verify if the 2 input elements are rendered', () => {
-  render(<App />)
-  expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument()
-  expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument()
-})
+test('renders two input elements (email and password)', () => {
+    const { container } = render(<App />);
+
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+
+    expect(container.querySelectorAll('input')).toHaveLength(2);
+  });
 
 test('Verify if the 2 label elements are rendered', () => {
   render(<App />)
