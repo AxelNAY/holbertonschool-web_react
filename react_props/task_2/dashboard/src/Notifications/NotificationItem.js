@@ -19,4 +19,3 @@ function NotificationItem({ type = 'default', html, value }) {
 }
 
 export default NotificationItem;
-export { NotificationItem };

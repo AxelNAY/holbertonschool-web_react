@@ -11,7 +11,7 @@ describe('NotificationItem component (Task 2)', () => {
     );
     const li = screen.getByRole('listitem');
     expect(li).toHaveAttribute('data-notification-type', 'default');
-    expect(li).toHaveStyle({ color: 'blue' });
+    expect(li).toHaveStyle({ color: 'rgb(0, 0, 255)' }); // Format RGB
     expect(li).toHaveTextContent('Default note');
   });
 
@@ -23,7 +23,7 @@ describe('NotificationItem component (Task 2)', () => {
     );
     const li = screen.getByRole('listitem');
     expect(li).toHaveAttribute('data-notification-type', 'urgent');
-    expect(li).toHaveStyle({ color: 'red' });
+    expect(li).toHaveStyle({ color: 'rgb(255, 0, 0)' }); // Format RGB
     expect(li).toHaveTextContent('Urgent note');
   });
 });
