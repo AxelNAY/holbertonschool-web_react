@@ -1,12 +1,6 @@
-export default function NotificationItem({ type = 'default', html, value }) {
-  const style = { color: type === 'urgent' ? 'red' : 'blue' };
-  if (value) {
-    return (
-      <li data-notification-type={type} style={style}>
-        {value}
-      </li>
-    );
-  }
+function NotificationItem({ type = 'default', html, value }) {
+  const style = type === 'urgent' ? { color: 'red' } : { color: 'blue' };
+
   if (html) {
     return (
       <li
@@ -16,5 +10,13 @@ export default function NotificationItem({ type = 'default', html, value }) {
       />
     );
   }
-  return null;
+
+  return (
+    <li data-notification-type={type} style={style}>
+      {value}
+    </li>
+  );
 }
+
+export default NotificationItem;
+export { NotificationItem };
