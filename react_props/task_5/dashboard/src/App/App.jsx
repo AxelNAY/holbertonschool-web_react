@@ -1,34 +1,40 @@
+// src/App/App.jsx
 import PropTypes from 'prop-types';
+import './App.css';
+
+import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Login from '../Login/Login';
-import Notifications from '../Notifications/Notifications';
 import CourseList from '../CourseList/CourseList';
-import './App.css';
+import { getLatestNotification } from '../utils/utils';
 
-// const coursesList = [];
+const defaultNotifications = [
+  { id: 1, type: 'default', value: 'New course available' },
+  { id: 2, type: 'urgent', value: 'New resume available' },
+  { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
+];
 
-const coursesList = [
+const defaultCourses = [
   { id: 1, name: 'ES6', credit: 60 },
   { id: 2, name: 'Webpack', credit: 20 },
   { id: 3, name: 'React', credit: 40 },
 ];
 
-function App({ isLoggedIn = false, courses = coursesList }) {
-
+function App({ isLoggedIn = false, courses = defaultCourses }) {
   return (
     <>
-      <Notifications />
+      {/* Drawer masqué par défaut, seul le titre de notifications est visible */}
+      {/* <Notifications notifications={defaultNotifications} /> */}
+      <Notifications displayDrawer={false} notifications={defaultNotifications} />
+
       <div className="App">
         <Header />
         <main className="App-body">
-          {!isLoggedIn ? (
-            <>
-              {/* <p className="App-body-title">Login to access the full dashboard</p> */}
-              <Login />
-            </>
-          ) : (
+          {isLoggedIn ? (
             <CourseList courses={courses} />
+          ) : (
+            <Login />
           )}
         </main>
         <Footer />
