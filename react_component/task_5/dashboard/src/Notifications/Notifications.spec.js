@@ -31,7 +31,7 @@ describe('Notifications', () => {
   })
 
   test('Check whether clicking the close button logs "Close button has been clicked" to the console.', () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {}); // ← silence
 
     render(<Notifications notifications={mockNotifications} displayDrawer={true} />);
     const button = screen.getByRole('button', { name: /close/i });
@@ -89,4 +89,46 @@ describe('Whenever the the prop displayDrawer set to true', () => {
 
     expect(screen.queryByText("No new notification for now")).toBeInTheDocument();
   });
+
+describe('Notifications (Task 7 - shouldComponentUpdate)', () => {
+  test("doesn't re-render when notifications length stays the same", () => {
+    const initial = [
+      { id: 1, type: 'default', value: 'A' },
+      { id: 2, type: 'default', value: 'B' },
+    ];
+    const { rerender } = render(<Notifications notifications={initial} displayDrawer={true} />);
+
+    expect(screen.getByText('A')).toBeInTheDocument();
+    expect(screen.getByText('B')).toBeInTheDocument();
+
+    const sameLenDifferentContent = [
+      { id: 1, type: 'default', value: 'C' },
+      { id: 2, type: 'default', value: 'D' },
+    ];
+    rerender(<Notifications notifications={sameLenDifferentContent} displayDrawer={true} />);
+
+    expect(screen.queryByText('C')).toBeNull();
+    expect(screen.queryByText('D')).toBeNull();
+    expect(screen.getByText('A')).toBeInTheDocument();
+    expect(screen.getByText('B')).toBeInTheDocument();
+  });
+
+  test('re-renders when notifications length changes', () => {
+    const initial = [
+      { id: 1, type: 'default', value: 'A' },
+      { id: 2, type: 'default', value: 'B' },
+    ];
+    const { rerender } = render(<Notifications notifications={initial} displayDrawer={true} />);
+
+    const longer = [
+      { id: 1, type: 'default', value: 'A' },
+      { id: 2, type: 'default', value: 'B' },
+      { id: 3, type: 'default', value: 'C' },
+    ];
+    rerender(<Notifications notifications={longer} displayDrawer={true} />);
+
+    expect(screen.getByText('C')).toBeInTheDocument();
+  });
+});
+
 })

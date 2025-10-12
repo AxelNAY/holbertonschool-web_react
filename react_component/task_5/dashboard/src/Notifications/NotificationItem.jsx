@@ -1,14 +1,14 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 
-export default class NotificationItem extends Component {
+export default class NotificationItem extends PureComponent {
   static propTypes = {
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     type: PropTypes.string,
     value: PropTypes.string,
     html: PropTypes.shape({ __html: PropTypes.string }),
-    markAsRead: PropTypes.func, // passée depuis Notifications
+    markAsRead: PropTypes.func,
   };
 
   static defaultProps = {
