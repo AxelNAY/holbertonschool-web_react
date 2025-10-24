@@ -2,6 +2,7 @@
 
 @layer base {
   :root {
+    --font-sans: 'Roboto', sans-serif;
     --color-table-header: #deb5b5;
     --color-table-rows: #CDCDCD;
   }
