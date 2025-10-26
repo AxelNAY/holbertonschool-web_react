@@ -1,19 +1,16 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: "Roboto", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+:root {
+  --color-table-header: #deb5b5;
+  --color-table-rows: #cdcdcd;
 }
 
+@theme {
+  --font-sans: "Roboto", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+               Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji",
+               "Segoe UI Symbol", "Noto Color Emoji";
+}
 @layer base {
-  :root {
-    --color-table-header: #deb5b5;
-    --color-table-rows: #CDCDCD;
-    --color-table-header-66: #deb5b5A8;
-    --color-table-rows-45: #CDCDCD73;
-  }
-
-  html, body {
-    font-family: "Roboto", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  }
-  body { @apply font-sans; }
+  html { @apply font-sans; }
+  body { @apply antialiased; }
 }
