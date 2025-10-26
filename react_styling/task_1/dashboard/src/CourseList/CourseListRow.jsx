@@ -1,31 +1,32 @@
-export default function CourseListRow({ isHeader=false, textFirstCell="", textSecondCell=null }) {
-  const headerStyle = {
-    backgroundColor: 'var(--color-table-header)',
-    opacity: '0.66'
-  };
-  
-  const rowStyle = {
-    backgroundColor: 'var(--color-table-rows)',
-    opacity: '0.45'
-  };
-  
-  const rowStyles = isHeader ? headerStyle : rowStyle;
-  
+import React from "react";
+
+export default function CourseListRow({
+  isHeader = false,
+  textFirstCell = "",
+  textSecondCell = null,
+}) {
+  const rowBg = isHeader
+    ? "bg-[var(--color-table-header-66)]"
+    : "bg-[var(--color-table-rows-45)]";
+
+  const thBase = "border border-gray-400 px-2 py-2 font-bold text-center";
+  const tdBase = "border border-gray-400 text-left pl-2 py-2";
+
   return (
-    <tr style={rowStyles}>
+    <tr className={rowBg}>
       {isHeader ? (
         textSecondCell === null ? (
-          <th colSpan="2" className="border border-gray-400">{textFirstCell}</th>
+          <th className={thBase} colSpan="2">{textFirstCell}</th>
         ) : (
           <>
-            <th style={{ width: '70%'}} className="border border-gray-400">{textFirstCell}</th>
-            <th className="border border-gray-400">{textSecondCell}</th>
+            <th className={thBase} style={{ width: "70%" }}>{textFirstCell}</th>
+            <th className={thBase}>{textSecondCell}</th>
           </>
         )
       ) : (
         <>
-          <td className="border border-gray-400 pl-2">{textFirstCell}</td>
-          <td className="border border-gray-400 pl-2">{textSecondCell}</td>
+          <td className={tdBase}>{textFirstCell}</td>
+          <td className={tdBase}>{textSecondCell}</td>
         </>
       )}
     </tr>

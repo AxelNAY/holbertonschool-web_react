@@ -1,16 +1,21 @@
+import React from "react";
 import CourseListRow from "./CourseListRow";
-import WithLogging from '../HOC/WithLogging';
+import WithLogging from "../HOC/WithLogging";
 
 function CourseList({ courses = [] }) {
   return (
-    <div className="flex justify-center items-center my-8">
-      <div className="w-4/5">
-        <table id="CourseList" className="w-full">
+    <div className="w-[85%] mx-auto my-10">
+      <div className="overflow-x-auto rounded border border-gray-200">
+        <table id="CourseList" className="w-full table-auto border-collapse">
           {courses.length > 0 ? (
             <>
               <thead>
                 <CourseListRow isHeader={true} textFirstCell="Available courses" />
-                <CourseListRow isHeader={true} textFirstCell="Course name" textSecondCell="Credit" />
+                <CourseListRow
+                  isHeader={true}
+                  textFirstCell="Course name"
+                  textSecondCell="Credit"
+                />
               </thead>
               <tbody>
                 {courses.map((course) => (
