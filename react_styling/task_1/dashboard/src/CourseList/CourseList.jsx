@@ -5,7 +5,7 @@ import WithLogging from "../HOC/WithLogging";
 function CourseList({ courses = [] }) {
   return (
     <div className="w-[85%] mx-auto my-10">
-      <div className="overflow-x-auto rounded border border-gray-200">
+      <div className="overflow-x-auto rounded border border-gray-400">
         <table id="CourseList" className="w-full table-auto border-collapse">
           {courses.length > 0 ? (
             <>
