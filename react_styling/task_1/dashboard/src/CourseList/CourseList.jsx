@@ -1,41 +1,40 @@
-import React from "react";
-import PropTypes from "prop-types";
-import CourseListRow from "./CourseListRow.jsx";
+import CourseListRow from "./CourseListRow";
+import WithLogging from "../HOC/WithLogging";
 
-function CourseList({ listCourses }) {
+function CourseList({ courses = [] }) {
   return (
-    <div className="w-11/12 md:w-4/5 lg:w-4/5 mx-auto my-8 overflow-x-auto" id="CourseListContainer">
-      <table className="w-full table-auto border-collapse" id="CourseList">
-        <thead>
-          <CourseListRow isHeader={true} textFirstCell="Available courses" />
-          <CourseListRow isHeader={true} textFirstCell="Course name" textSecondCell="Credit" />
-        </thead>
-        <tbody>
-          {(!listCourses || listCourses.length === 0) ? (
-            <CourseListRow textFirstCell="No course available yet" textSecondCell={null} />
+    <div className="w-full flex justify-center my-8">
+      <div className="w-4/5">
+        <table id="CourseList" className="w-full border-collapse text-black">
+          {courses.length > 0 ? (
+            <>
+              <thead>
+                <CourseListRow isHeader={true} textFirstCell="Available courses" />
+                <CourseListRow
+                  isHeader={true}
+                  textFirstCell="Course name"
+                  textSecondCell="Credit"
+                />
+              </thead>
+              <tbody>
+                {courses.map((c) => (
+                  <CourseListRow
+                    key={c.id}
+                    textFirstCell={c.name}
+                    textSecondCell={c.credit}
+                  />
+                ))}
+              </tbody>
+            </>
           ) : (
-            listCourses.map(({ id, name, credit }) => (
-              <CourseListRow key={id} textFirstCell={name} textSecondCell={credit} />
-            ))
+            <tbody>
+              <CourseListRow isHeader={true} textFirstCell="No course available yet" />
+            </tbody>
           )}
-        </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   );
 }
 
-CourseList.defaultProps = {
-  listCourses: [],
-};
-
-CourseList.propTypes = {
-  listCourses: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      credit: PropTypes.number.isRequired,
-    })
-  ),
-};
-
-export default CourseList;
+export default WithLogging(CourseList);

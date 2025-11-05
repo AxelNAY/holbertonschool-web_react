@@ -1,16 +1,36 @@
 @import "tailwindcss";
 
-:root {
-  --color-table-header: #deb5b5;
-  --color-table-rows: #cdcdcd;
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("@fontsource/roboto/files/roboto-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("@fontsource/roboto/files/roboto-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("@fontsource/roboto/files/roboto-latin-700-normal.woff2") format("woff2");
 }
 
 @theme {
   --font-sans: "Roboto", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
                Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji",
-               "Segoe UI Symbol", "Noto Color Emoji";
+               "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  --color-table-header: #deb5b5;
+  --color-table-rows: #CDCDCD;
 }
+
 @layer base {
-  html { @apply font-sans; }
-  body { @apply antialiased; }
+  html { font-family: var(--font-sans); }
+  body { @apply font-sans; }
 }

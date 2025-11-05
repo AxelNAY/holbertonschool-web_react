@@ -1,18 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
+export default function CourseListRow({
+  isHeader = false,
+  textFirstCell = "",
+  textSecondCell = null,
+}) {
+  const headerBg = "rgba(222, 181, 181, 0.66)"; // #deb5b5 + 66 %
+  const rowBg = "rgba(205, 205, 205, 0.45)";   // #CDCDCD + 45 %
 
-function CourseListRow({ isHeader, textFirstCell, textSecondCell }) {
   const rowStyle = {
-    background: isHeader
-      ? "color-mix(in srgb, var(--color-table-header) 66%, transparent)"
-      : "color-mix(in srgb, var(--color-table-rows) 45%, transparent)",
+    backgroundColor: isHeader ? headerBg : rowBg,
   };
 
+  const cellClass = "border border-gray-400 pl-2 text-black";
+
   if (isHeader) {
-    if (textSecondCell === null || textSecondCell === undefined) {
+    if (textSecondCell === null) {
       return (
         <tr style={rowStyle}>
-          <th className="border border-gray-400 text-left" colSpan={2}>
+          <th colSpan="2" className={`${cellClass} font-bold`}>
             {textFirstCell}
           </th>
         </tr>
@@ -20,29 +24,16 @@ function CourseListRow({ isHeader, textFirstCell, textSecondCell }) {
     }
     return (
       <tr style={rowStyle}>
-        <th className="border border-gray-400 text-left">{textFirstCell}</th>
-        <th className="border border-gray-400 text-left">{textSecondCell}</th>
+        <th className={`${cellClass} font-bold w-[70%]`}>{textFirstCell}</th>
+        <th className={`${cellClass} font-bold`}>{textSecondCell}</th>
       </tr>
     );
   }
 
   return (
     <tr style={rowStyle}>
-      <td className="border border-gray-400 pl-2">{textFirstCell}</td>
-      <td className="border border-gray-400 pl-2">{textSecondCell}</td>
+      <td className={cellClass}>{textFirstCell}</td>
+      <td className={cellClass}>{textSecondCell}</td>
     </tr>
   );
 }
-
-CourseListRow.defaultProps = {
-  isHeader: false,
-  textSecondCell: null,
-};
-
-CourseListRow.propTypes = {
-  isHeader: PropTypes.bool,
-  textFirstCell: PropTypes.string.isRequired,
-  textSecondCell: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
-
-export default CourseListRow;
