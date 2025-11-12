@@ -9,11 +9,11 @@ function App() {
       <div className="root-notifications">
         <Notifications />
       </div>
-      <div class="App-header">
+      <div className="App-header">
         <img src={holbertonLogo} alt="holberton logo" className="App-logo" />
         <h1>School dashboard</h1>
       </div>
-      <div class="App-body">
+      <div className="App-body">
         <p>Login to access the full dashboard</p>
         <label id="email">Email
           <input placeholder='email'>
@@ -25,7 +25,7 @@ function App() {
         </label>
         <button>OK</button>
       </div>
-      <div class="App-footer">
+      <div className="App-footer">
         <p>Copyright { getCurrentYear() } { getFooterCopy(true) }</p>
       </div>
     </>

@@ -16,8 +16,20 @@
   border-top: 2px solid #e1003c;
   border-bottom: 2px solid #e1003c;
   padding: 1rem;
-  padding-bottom: 24rem;
+  padding-bottom: 18rem;
   text-align: left;
+}
+
+#email {
+  padding: 0 4px;
+}
+
+#password {
+  padding: 0 4px;
+}
+
+button {
+  padding: 0 4px;
 }
 
 .App-footer {

@@ -18,7 +18,7 @@ describe("Notifications component (Task 7)", () => {
 
   test("contains a Close button inside the notifications container", () => {
     const { container } = render(<Notifications />);
-    const panel = container.querySelector(".Notifications");
+    const panel = container.querySelector(".notification-items");
     expect(panel).toBeTruthy();
     const closeBtn = screen.getByRole("button", { name: /close/i });
     expect(within(panel).getByRole("button", { name: /close/i })).toBe(closeBtn);
