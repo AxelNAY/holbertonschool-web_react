@@ -3,8 +3,8 @@ export default function CourseListRow({
   textFirstCell = "",
   textSecondCell = null,
 }) {
-  const headerBg = "rgba(222, 181, 181, 0.66)";
-  const rowBg = "rgba(205, 205, 205, 0.45)";
+  const headerBg = "rgba(222, 181, 181, 0.66)"; // #deb5b5 + 66 %
+  const rowBg = "rgba(205, 205, 205, 0.45)";   // #CDCDCD + 45 %
 
   const rowStyle = {
     backgroundColor: isHeader ? headerBg : rowBg,

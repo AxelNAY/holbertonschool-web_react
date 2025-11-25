@@ -1,5 +1,5 @@
 import './Header.css';
-import holbertonLogo from '../assets/holberton-logo.jpg'; // ou .jpg
+import holbertonLogo from '../assets/holberton-logo.jpg';
 
 export default function Header() {
   return (
