@@ -10,6 +10,7 @@ const sample = [
 describe('Notifications component (Task 5)', () => {
   test('always shows the "Your notifications" title', () => {
     render(<Notifications />);
+    // Title must ALWAYS be present
     expect(screen.getByText(/your notifications/i)).toBeInTheDocument();
   });
 
@@ -18,6 +19,7 @@ describe('Notifications component (Task 5)', () => {
       render(<Notifications />);
       expect(screen.queryByText(/here is the list of notifications/i)).toBeNull();
       expect(screen.queryByRole('button', { name: /close/i })).toBeNull();
+      // No <ul> of notification items
       expect(screen.queryByRole('list')).toBeNull();
       expect(screen.queryByText(/no new notification for now/i)).toBeNull();
     });

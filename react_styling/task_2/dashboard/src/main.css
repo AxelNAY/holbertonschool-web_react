@@ -37,3 +37,16 @@
   html { font-family: var(--font-sans); }
   body { @apply font-sans; }
 }
+
+.notifications-list{
+  list-style-type: square;
+  padding-left: 1.25rem;
+  margin: 0;
+}
+.notifications-list li::marker{ font-size: 0.85rem; }
+.notifications-list li[data-notification-type="default"]::marker{
+  color: var(--default-notification-item); /* blue */
+}
+.notifications-list li[data-notification-type="urgent"]::marker{
+  color: var(--urgent-notification-item);  /* red */
+}

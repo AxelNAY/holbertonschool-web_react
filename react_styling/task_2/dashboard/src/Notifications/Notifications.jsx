@@ -34,6 +34,7 @@ export default class Notifications extends Component {
 
     return (
       <div className="w-full flex flex-col items-end pr-4">
+        {/* Titre aligné à droite */}
         <div
           className="text-right font-normal text-base text-black"
           data-testid="notifications-title"
@@ -41,6 +42,7 @@ export default class Notifications extends Component {
           Your notifications
         </div>
 
+        {/* Panneau de notifications */}
         {displayDrawer ? (
           <div
             className="relative mt-1 block p-2 border border-dotted rounded-none bg-white w-[520px]"

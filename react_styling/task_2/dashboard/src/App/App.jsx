@@ -38,7 +38,7 @@ class App extends Component {
   };
 
   static defaultProps = {
-    isLoggedIn: false,
+    isLoggedIn: true,
     courses: defaultCourses,
     logOut: () => {},
   };
@@ -63,7 +63,7 @@ class App extends Component {
     const { isLoggedIn, courses } = this.props;
 
     return (
-      <>
+            <>
         <Notifications displayDrawer={false} notifications={defaultNotifications} />
         <div className="App">
           <Header />
