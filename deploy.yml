@@ -1,0 +1,35 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # ou master selon votre branche principale
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'react_intro/task_4/dashboard/package-lock.json'
+      
+      - name: Install dependencies
+        working-directory: react_intro/task_4/dashboard
+        run: npm ci
+      
+      - name: Build
+        working-directory: react_intro/task_4/dashboard
+        run: npm run build
+      
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: react_intro/task_4/dashboard/dist
