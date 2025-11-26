@@ -2,15 +2,15 @@ import holbertonLogo from '../assets/holberton-logo.jpg';
 
 export default function Header() {
   return (
-    <header
-      className="flex items-center gap-[16px] border-b-[3px] border-[#e0354b] py-[20px]"
-    >
+    <header className="App-header flex items-center p-[10px]">
       <img
-        className="h-[200px]"
+        className="App-logo h-[200px] mr-5"
         src={holbertonLogo}
         alt="Holberton logo"
       />
-      <h1 style={{ borderColor: 'var(--main-color)' }}>School dashboard</h1>
+      <h1 className="text-[var(--main-color)] text-4xl font-bold">
+        School Dashboard
+      </h1>
     </header>
   );
 }

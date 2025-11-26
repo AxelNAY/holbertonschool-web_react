@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import closeIcon from '../assets/close-button.png';
+import closebtn from '../assets/close-button.png';
 import NotificationItem from './NotificationItem';
 
 export default class Notifications extends Component {
@@ -32,55 +32,60 @@ export default class Notifications extends Component {
   render() {
     const { notifications, displayDrawer } = this.props;
 
-    return (
-      <div className="w-full flex flex-col items-end pr-4">
-        <div
-          className="text-right font-normal text-base text-black"
-          data-testid="notifications-title"
-        >
-          Your notifications
-        </div>
-
-        {displayDrawer ? (
-          <div
-            className="relative mt-1 block p-2 border border-dotted rounded-none bg-white w-[520px]"
-            style={{ borderColor: 'var(--main-color)' }}
-          >
-            {notifications.length === 0 ? (
-              <p className="notifications-empty m-0">
-                No new notification for now
-              </p>
-            ) : (
-              <>
-                <p className="text-base mb-2 m-0">
-                  Here is the list of notifications
-                </p>
-
-                <button
-                  aria-label="Close"
-                  className="absolute top-2 right-2"
-                  onClick={() => console.log('Close button has been clicked')}
-                >
-                  <img src={closeIcon} alt="Close" className="w-3 h-3" />
-                </button>
-
-                <ul className="notifications-list">
-                  {notifications.map((n) => (
-                    <NotificationItem
-                      key={n.id}
-                      id={n.id}
-                      type={n.type}
-                      value={n.value}
-                      html={n.html}
-                      markAsRead={this.markAsRead}
-                    />
-                  ))}
-                </ul>
-              </>
-            )}
-          </div>
-        ) : null}
+    const Title = (
+      <div
+        className="notification-title fixed top-2 right-3 z-[1000]"
+        data-testid="notifications-title"
+      >
+        <p className="m-0 p-0 text-sm font-medium">Your notifications</p>
       </div>
+    );
+
+    const Drawer = displayDrawer ? (
+      <div
+        className="notifications fixed top-10 right-3 z-[999] w-[360px] max-w-[calc(100%-24px)] rounded-none bg-white box-border p-4 pb-3 border-2 border-dashed"
+        style={{ borderColor: 'var(--main-color)' }}
+      >
+
+        <div className="notification-items">
+          {notifications.length > 0 ? (
+            <>
+              <p className="m-0 mb-3">Here is the list of notifications</p>
+
+              <button
+                onClick={() => console.log('Close button has been clicked')}
+                aria-label="Close"
+                className="notifications-close absolute top-2 right-2 p-1 bg-transparent border-0 cursor-pointer"
+                type="button"
+              >
+                <img src={closebtn} alt="Close" className="block w-3 h-3" />
+              </button>
+
+              <ul className="list-disc list-outside pl-4 m-0">
+                {notifications.map((n) => (
+                  <NotificationItem
+                    key={n.id}
+                    id={n.id}
+                    type={n.type}
+                    value={n.value}
+                    html={n.html}
+                    markAsRead={this.markAsRead}
+                  />
+                ))}
+              </ul>
+            </>
+          ) : (
+            <p className="notifications-empty m-0">No new notification for now</p>
+          )}
+        </div>
+      </div>
+    ) : null;
+
+    return (
+      <>
+        {Title}
+        {Drawer}
+      </>
     );
   }
 }

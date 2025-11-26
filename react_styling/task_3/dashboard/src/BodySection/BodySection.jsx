@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 const BodySection = ({ title, children }) => {
   return (
     <div className="bodySection">
-      <h2>{title}</h2>
+      <h2 className="text-xl font-semibold mb-0">{title}</h2>
       {children}
     </div>
   );

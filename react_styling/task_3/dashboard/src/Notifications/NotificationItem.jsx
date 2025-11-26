@@ -1,37 +1,54 @@
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-export default function NotificationItem({ id, type = 'default', value, html, markAsRead }) {
-  const color = type === 'urgent'
-    ? 'var(--urgent-notification-item)'
-    : 'var(--default-notification-item)';
-
-  const onClick = () => {
-    if (markAsRead) markAsRead(id);
+export default class NotificationItem extends PureComponent {
+  static propTypes = {
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    type: PropTypes.string,
+    value: PropTypes.string,
+    html: PropTypes.shape({ __html: PropTypes.string }),
+    markAsRead: PropTypes.func,
   };
 
-  return html ? (
-    <li
-      data-notification-type={type}
-      style={{ color }}
-      onClick={onClick}
-      // html: { __html: '...' }
-      dangerouslySetInnerHTML={html}
-    />
-  ) : (
-    <li
-      data-notification-type={type}
-      style={{ color }}
-      onClick={onClick}
-    >
-      {value}
-    </li>
-  );
-}
+  static defaultProps = {
+    type: 'default',
+    markAsRead: () => {},
+  };
 
-NotificationItem.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  type: PropTypes.string,
-  value: PropTypes.string,
-  html: PropTypes.shape({ __html: PropTypes.string }),
-  markAsRead: PropTypes.func,
-};
+  handleClick = () => {
+    const { id, markAsRead } = this.props;
+    markAsRead(id);
+  };
+
+  render() {
+    const { type, html, value } = this.props;
+
+    const style = {
+      color:
+        type === 'urgent'
+          ? 'var(--urgent-notification-item)'
+          : 'var(--default-notification-item)',
+    };
+
+    if (html) {
+      return (
+        <li
+          data-notification-type={type}
+          style={style}
+          onClick={this.handleClick}
+          dangerouslySetInnerHTML={html}
+        />
+      );
+    }
+
+    return (
+      <li
+        data-notification-type={type}
+        style={style}
+        onClick={this.handleClick}
+      >
+        {value}
+      </li>
+    );
+  }
+}

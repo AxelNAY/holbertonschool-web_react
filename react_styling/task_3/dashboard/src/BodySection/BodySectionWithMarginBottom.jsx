@@ -3,7 +3,7 @@ import BodySection from './BodySection';
 
 const BodySectionWithMarginBottom = ({ title, children }) => {
   return (
-    <div className="mb-[40px]">
+    <div className="bodySectionWithMargin mb-10">
       <BodySection title={title}>{children}</BodySection>
     </div>
   );
