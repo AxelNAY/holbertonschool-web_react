@@ -1,24 +1,16 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import closeIcon from '../assets/close-icon.png';
 
-class Notifications extends Component {
-  shouldComponentUpdate(nextProps) {
-    const lengthChanged =
-      (this.props.notifications?.length || 0) !==
-      (nextProps.notifications?.length || 0);
-    const drawerChanged = this.props.displayDrawer !== nextProps.displayDrawer;
-    return lengthChanged || drawerChanged;
+class Notifications extends PureComponent {
+  markNotificationAsRead(id) {
+    console.log(`Notification ${id} has been marked as read`);
+    this.setState((prevState) => ({
+      notifications: prevState.notifications.filter(
+        (notification) => notification.id !== id
+      ),
+    }));
   }
-
-  markAsRead = (id) => {
-    const { markNotificationAsRead } = this.props;
-    if (markNotificationAsRead) {
-      markNotificationAsRead(id);
-    } else {
-      console.log(`Notification ${id} has been marked as read`);
-    }
-  };
 
   handleCloseClick = () => {
     console.log('Close button has been clicked');
@@ -76,7 +68,7 @@ class Notifications extends Component {
                     key={n.id}
                     data-notification-type={n.type}
                     className="py-1 cursor-pointer"
-                    onClick={() => this.markAsRead(n.id)}
+                    onClick={() => this.props.markNotificationAsRead?.(n.id)}
                   >
                     {n.value ?? <span dangerouslySetInnerHTML={n.html} />}
                   </li>

@@ -22,6 +22,21 @@ describe("App local state for notifications", () => {
     expect(screen.getByTestId("menu-item")).toBeInTheDocument();
     expect(screen.queryByTestId("close-btn")).toBeNull();
   });
+
+  test("clicking a notification removes it and logs the correct message", () => {
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+    render(<App />);
+    fireEvent.click(screen.getByTestId("menu-item"));
+    const notificationItem = screen.getByText(/New course available/i);
+    fireEvent.click(notificationItem);
+    expect(
+      screen.queryByText(/New course available/i)
+    ).not.toBeInTheDocument();
+    expect(consoleSpy).toHaveBeenCalledWith(
+      "Notification 1 has been marked as read"
+    );
+    consoleSpy.mockRestore();
+  });
 });
 
 describe("App local state for login/logout", () => {

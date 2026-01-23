@@ -36,42 +36,22 @@ describe("Notifications interactions", () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  test("component re-renders when displayDrawer changes (shouldComponentUpdate)", () => {
+  test("clicking a notification calls markNotificationAsRead with the right id", () => {
     const onOpen = jest.fn();
     const onClose = jest.fn();
+    const onMark = jest.fn();
 
-    const { rerender } = render(
-      <Notifications
-        displayDrawer={false}
-        handleDisplayDrawer={onOpen}
-        handleHideDrawer={onClose}
-        notifications={[{ id: 1, type: "default", value: "foo" }]}
-      />
-    );
-
-    // fermé => menu visible
-    expect(screen.getByText(/Your notifications/i)).toBeInTheDocument();
-
-    // change prop: ouvert
-    rerender(
+    render(
       <Notifications
         displayDrawer={true}
         handleDisplayDrawer={onOpen}
         handleHideDrawer={onClose}
+        markNotificationAsRead={onMark}
         notifications={[{ id: 1, type: "default", value: "foo" }]}
       />
     );
-    expect(screen.getByTestId("close-btn")).toBeInTheDocument();
 
-    // re-fermer
-    rerender(
-      <Notifications
-        displayDrawer={false}
-        handleDisplayDrawer={onOpen}
-        handleHideDrawer={onClose}
-        notifications={[{ id: 1, type: "default", value: "foo" }]}
-      />
-    );
-    expect(screen.getByText(/Your notifications/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByText("foo"));
+    expect(onMark).toHaveBeenCalledWith(1);
   });
 });
