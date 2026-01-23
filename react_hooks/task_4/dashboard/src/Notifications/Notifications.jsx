@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+areEqualimport { memo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import closeIcon from '../assets/close-icon.png';
 
@@ -110,7 +110,8 @@ function areEqual(prevProps, nextProps) {
 
   return (
     prevProps.displayDrawer === nextProps.displayDrawer &&
-    prevLen === nextLen
+    prevLen === nextLen &&
+    prevProps.markNotificationAsRead === nextProps.markNotificationAsRead
   );
 }
 
