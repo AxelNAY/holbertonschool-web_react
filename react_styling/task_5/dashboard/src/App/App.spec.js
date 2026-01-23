@@ -1,4 +1,3 @@
-// src/App/App.spec.js
 import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App';
 
@@ -63,7 +62,7 @@ describe('App (Task 1) - lifecycle & keyboard', () => {
       expect(
         screen.getByRole('heading', { level: 2, name: /News from the School/i })
       ).toBeInTheDocument();
-      expect(screen.getByText(/Holberton School News goes here/i)).toBeInTheDocument();
+      expect(screen.getByText(/ipsum Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, asperiores architecto blanditiis fuga doloribus sit illum aliquid ea distinctio minus accusantium, impedit quo voluptatibus ut magni dicta. Recusandae, quia dicta?/i)).toBeInTheDocument();
     });
   });
 });
