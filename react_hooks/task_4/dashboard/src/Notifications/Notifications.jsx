@@ -110,8 +110,7 @@ function areEqual(prevProps, nextProps) {
 
   return (
     prevProps.displayDrawer === nextProps.displayDrawer &&
-    prevLen === nextLen &&
-    prevProps.markNotificationAsRead === nextProps.markNotificationAsRead
+    prevLen === nextLen
   );
 }
 
