@@ -10,7 +10,9 @@ export default function Footer() {
       <p>Copyright {year} - Holberton School main dashboard</p>
       {user.isLoggedIn && (
         <p>
-          <a href="#" className="text-blue-600 underline">Contact us</a>
+          <a href="#" className="text-blue-600 underline">
+            Contact us
+          </a>
         </p>
       )}
     </footer>
