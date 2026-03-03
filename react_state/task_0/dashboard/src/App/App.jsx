@@ -1,47 +1,111 @@
 import React, { Component } from 'react';
-import Notifications from '../Notifications/Notifications.jsx';
+import PropTypes from 'prop-types';
+
+import Notifications from '../Notifications/Notifications';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import Login from '../Login/Login';
+import CourseList from '../CourseList/CourseList';
+import { getLatestNotification } from '../utils/utils';
+
+import BodySection from '../BodySection/BodySection';
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
+
+const defaultNotifications = [
+  { id: 1, type: 'default', value: 'New course available' },
+  { id: 2, type: 'urgent', value: 'New resume available' },
+  { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
+];
+
+const defaultCourses = [
+  { id: 1, name: 'ES6', credit: 60 },
+  { id: 2, name: 'Webpack', credit: 20 },
+  { id: 3, name: 'React', credit: 40 },
+];
 
 class App extends Component {
+  static propTypes = {
+    isLoggedIn: PropTypes.bool,
+    courses: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        credit: PropTypes.number.isRequired,
+      })
+    ),
+    logOut: PropTypes.func,
+  };
+
+  static defaultProps = {
+    isLoggedIn: false,
+    courses: defaultCourses,
+    logOut: () => {},
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       displayDrawer: false,
     };
-    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
-    this.handleHideDrawer = this.handleHideDrawer.bind(this);
   }
 
-  handleDisplayDrawer() {
+  handleDisplayDrawer = () => {
     this.setState({ displayDrawer: true });
+  };
+
+  handleHideDrawer = () => {
+    this.setState({ displayDrawer: false });
+  };
+
+  handleKeyDown = (e) => {
+    const key = e && typeof e.key === 'string' ? e.key : '';
+    if (e?.ctrlKey && (key === 'h' || key === 'H')) {
+      window.alert('Logging you out');
+      this.props.logOut();
+    }
+  };
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
   }
 
-  handleHideDrawer() {
-    this.setState({ displayDrawer: false });
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
   }
 
   render() {
-    const { displayDrawer } = this.state;
+    const { isLoggedIn, courses } = this.props;
 
     return (
-      <div className="App min-h-screen flex flex-col bg-gray-50">
+            <>
         <Notifications
-          displayDrawer={displayDrawer}
+          displayDrawer={this.state.displayDrawer}
+          notifications={defaultNotifications}
           handleDisplayDrawer={this.handleDisplayDrawer}
           handleHideDrawer={this.handleHideDrawer}
-          notifications={[
-            { id: 1, type: 'default', value: 'New course available' },
-            { id: 2, type: 'urgent', value: 'New resume available' },
-          ]}
         />
+        <div className="App">
+          <Header />
 
-        <main className="flex-1 px-4 py-4">
-          {!displayDrawer && (
-            <p className="text-sm text-gray-600">
-              Click “Your notifications” to open the drawer.
-            </p>
-          )}
-        </main>
-      </div>
+          <main className="App-body">
+            {!isLoggedIn ? (
+              <BodySectionWithMarginBottom title="Log in to continue">
+                <Login />
+              </BodySectionWithMarginBottom>
+            ) : (
+              <BodySectionWithMarginBottom title="Course list">
+                <CourseList courses={courses} />
+              </BodySectionWithMarginBottom>
+            )}
+
+            <BodySection title="News from the School">
+              <p>ipsum Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, asperiores architecto blanditiis fuga doloribus sit illum aliquid ea distinctio minus accusantium, impedit quo voluptatibus ut magni dicta. Recusandae, quia dicta?</p>
+            </BodySection>
+          </main>
+
+          <Footer />
+        </div>
+      </>
     );
   }
 }
