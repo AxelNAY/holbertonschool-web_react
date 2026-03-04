@@ -1,5 +1,21 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+
+// Spy wrapper around the real Notifications component.
+// When mockCapturedRefs is an array, each render records markNotificationAsRead.
+// When null (all other tests), the real component renders unchanged.
+let mockCapturedRefs = null;
+
+jest.mock('../Notifications/Notifications', () => {
+  const { default: RealNotifications } = jest.requireActual('../Notifications/Notifications');
+  return function NotificationsSpy(props) {
+    if (mockCapturedRefs !== null) {
+      mockCapturedRefs.push(props.markNotificationAsRead);
+    }
+    return <RealNotifications {...props} />;
+  };
+});
+
 import App from './App';
 
 describe('App - default state', () => {
@@ -128,5 +144,50 @@ describe('App - markNotificationAsRead', () => {
 
     expect(screen.queryByText('New course available')).not.toBeInTheDocument();
     expect(consoleSpy).toHaveBeenCalledWith('Notification 1 has been marked as read');
+  });
+
+  test('show → mark as read → hide → show: notification stays removed after re-opening drawer', () => {
+    render(<App />);
+
+    // Drawer is open — mark a notification as read
+    fireEvent.click(screen.getByText('New course available'));
+    expect(screen.queryByText('New course available')).not.toBeInTheDocument();
+
+    // Close the drawer
+    fireEvent.click(screen.getByRole('button', { name: /close/i }));
+    expect(screen.queryByRole('region', { name: /notifications/i })).not.toBeInTheDocument();
+
+    // Re-open the drawer
+    fireEvent.click(screen.getByText(/your notifications/i));
+    expect(screen.getByRole('region', { name: /notifications/i })).toBeInTheDocument();
+
+    // The removed notification must still be absent
+    expect(screen.queryByText('New course available')).not.toBeInTheDocument();
+  });
+});
+
+describe('App - markNotificationAsRead reference stability', () => {
+  beforeEach(() => {
+    mockCapturedRefs = [];
+  });
+
+  afterEach(() => {
+    mockCapturedRefs = null;
+  });
+
+  test('markNotificationAsRead keeps the same function reference between re-renders', () => {
+    render(<App />);
+
+    const initialRef = mockCapturedRefs[mockCapturedRefs.length - 1];
+
+    // Trigger state changes to force re-renders
+    fireEvent.click(screen.getByRole('button', { name: /close/i })); // displayDrawer: true → false
+    fireEvent.click(screen.getByText(/your notifications/i));         // displayDrawer: false → true
+
+    // At least 3 renders must have occurred (initial + close + open)
+    expect(mockCapturedRefs.length).toBeGreaterThanOrEqual(3);
+
+    // Every render must have received the exact same function reference
+    expect(mockCapturedRefs.every((ref) => ref === initialRef)).toBe(true);
   });
 });
