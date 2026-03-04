@@ -24,28 +24,66 @@ describe('App - default state', () => {
   });
 });
 
-describe('App - login / logout flow (state changes)', () => {
+describe('App - handleDisplayDrawer and handleHideDrawer', () => {
+  test('drawer is open by default (displayDrawer initializes to true)', () => {
+    render(<App />);
+    expect(screen.getByRole('region', { name: /notifications/i })).toBeInTheDocument();
+  });
+
+  test('handleHideDrawer closes the drawer when the Close button is clicked', () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: /close/i }));
+    expect(screen.queryByRole('region', { name: /notifications/i })).not.toBeInTheDocument();
+  });
+
+  test('handleDisplayDrawer re-opens the drawer when "Your notifications" is clicked', () => {
+    render(<App />);
+    // Close first
+    fireEvent.click(screen.getByRole('button', { name: /close/i }));
+    expect(screen.queryByRole('region', { name: /notifications/i })).not.toBeInTheDocument();
+    // Re-open
+    fireEvent.click(screen.getByText(/your notifications/i));
+    expect(screen.getByRole('region', { name: /notifications/i })).toBeInTheDocument();
+  });
+});
+
+describe('App - logIn state mutations', () => {
+  function loginUser(email = 'test@example.com', password = 'password123') {
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: email } });
+    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: password } });
+    fireEvent.click(screen.getByRole('button', { name: /ok/i }));
+  }
+
+  test('logIn sets isLoggedIn to true — CourseList appears and Login form disappears', () => {
+    const { container } = render(<App />);
+    loginUser();
+    expect(container.querySelector('#CourseList')).not.toBeNull();
+    expect(screen.queryByLabelText(/email/i)).toBeNull();
+  });
+
+  test('logIn updates email in user state — logoutSection shows the email', () => {
+    render(<App />);
+    loginUser('user@test.com', 'mypassword1');
+    expect(document.querySelector('#logoutSection')).toHaveTextContent('user@test.com');
+  });
+
+  test('logIn updates password in user state — submit is enabled only with valid credentials', () => {
+    render(<App />);
+    expect(screen.getByRole('button', { name: /ok/i })).toBeDisabled();
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'a@b.com' } });
+    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'pass1234' } });
+    expect(screen.getByRole('button', { name: /ok/i })).not.toBeDisabled();
+  });
+});
+
+describe('App - logOut state mutations', () => {
   function loginUser() {
     fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
     fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password123' } });
     fireEvent.click(screen.getByRole('button', { name: /ok/i }));
   }
 
-  test('shows CourseList and logoutSection after login state change', () => {
-    const { container } = render(<App />);
-    loginUser();
-    expect(container.querySelector('#CourseList')).not.toBeNull();
-    expect(screen.queryByLabelText(/email/i)).toBeNull();
-    expect(document.querySelector('#logoutSection')).toBeInTheDocument();
-  });
-
-  test('shows welcome message with email in logoutSection after login', () => {
-    render(<App />);
-    loginUser();
-    expect(document.querySelector('#logoutSection')).toHaveTextContent('test@example.com');
-  });
-
-  test('returns to Login form after clicking logout link in header (state change)', () => {
+  test('logOut sets isLoggedIn to false — Login form returns', () => {
     render(<App />);
     loginUser();
     fireEvent.click(screen.getByText('logout'));
@@ -53,12 +91,19 @@ describe('App - login / logout flow (state changes)', () => {
     expect(document.querySelector('#logoutSection')).not.toBeInTheDocument();
   });
 
-  test('returns to Login form after Ctrl+H logout (state change)', () => {
+  test('logOut clears email from user state — logoutSection is removed', () => {
     render(<App />);
     loginUser();
-    fireEvent.keyDown(document, { key: 'h', ctrlKey: true });
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(document.querySelector('#logoutSection')).toHaveTextContent('test@example.com');
+    fireEvent.click(screen.getByText('logout'));
     expect(document.querySelector('#logoutSection')).not.toBeInTheDocument();
+  });
+
+  test('logOut clears password from user state — submit button is disabled after re-render', () => {
+    render(<App />);
+    loginUser();
+    fireEvent.click(screen.getByText('logout'));
+    expect(screen.getByRole('button', { name: /ok/i })).toBeDisabled();
   });
 });
 
@@ -75,40 +120,13 @@ describe('App - markNotificationAsRead', () => {
 
   test('clicking a notification removes it from the list and logs the expected message', () => {
     render(<App />);
-
-    // Open the drawer first
-    fireEvent.click(screen.getByText(/your notifications/i));
-
-    // Notification with id=1 should be visible
+    // Drawer is open by default (displayDrawer initializes to true)
     const notification = screen.getByText('New course available');
     expect(notification).toBeInTheDocument();
 
-    // Click it to mark as read
     fireEvent.click(notification);
 
-    // It should be removed from the list
     expect(screen.queryByText('New course available')).not.toBeInTheDocument();
-
-    // Console should have logged the expected message
     expect(consoleSpy).toHaveBeenCalledWith('Notification 1 has been marked as read');
-  });
-});
-
-describe('App - keyboard shortcut', () => {
-  let alertSpy;
-
-  beforeEach(() => {
-    alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-    alertSpy.mockRestore();
-  });
-
-  test('alerts "Logging you out" when Ctrl+H is pressed', () => {
-    render(<App />);
-    fireEvent.keyDown(document, { key: 'h', ctrlKey: true });
-    expect(window.alert).toHaveBeenCalledWith('Logging you out');
   });
 });

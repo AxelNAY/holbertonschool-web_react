@@ -1,5 +1,4 @@
-import { Component } from 'react';
-
+import { useState, useCallback } from 'react';
 
 import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
@@ -12,7 +11,7 @@ import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import AppContext from '../Context/context';
 
-const defaultNotifications = [
+const notificationsList = [
   { id: 1, type: 'default', value: 'New course available' },
   { id: 2, type: 'urgent', value: 'New resume available' },
   { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
@@ -24,87 +23,47 @@ const defaultCourses = [
   { id: 3, name: 'React', credit: 40 },
 ];
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.logOut = this.logOut.bind(this);
-    this.state = {
-      displayDrawer: false,
-      user: {
-        email: '',
-        password: '',
-        isLoggedIn: false,
-      },
-      logout: this.logOut,
-      notifications: defaultNotifications,
-      courses: defaultCourses,
-    };
-  }
+function App() {
+  const [displayDrawer, setDisplayDrawer] = useState(true);
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+    isLoggedIn: false,
+  });
+  const [notifications, setNotifications] = useState(notificationsList);
 
-  logIn = (email, password) => {
-    this.setState({
-      user: {
-        email,
-        password,
-        isLoggedIn: true,
-      },
-    });
-  };
+  const logIn = useCallback((email, password) => {
+    setUser({ email, password, isLoggedIn: true });
+  }, []);
 
-  logOut() {
-    this.setState({
-      user: {
-        email: '',
-        password: '',
-        isLoggedIn: false,
-      },
-    });
-  }
+  const logOut = useCallback(() => {
+    setUser({ email: '', password: '', isLoggedIn: false });
+  }, []);
 
-  handleDisplayDrawer = () => {
-    this.setState({ displayDrawer: true });
-  };
+  const handleDisplayDrawer = useCallback(() => {
+    setDisplayDrawer(true);
+  }, []);
 
-  handleHideDrawer = () => {
-    this.setState({ displayDrawer: false });
-  };
+  const handleHideDrawer = useCallback(() => {
+    setDisplayDrawer(false);
+  }, []);
 
-  handleKeyDown = (e) => {
-    const key = e && typeof e.key === 'string' ? e.key : '';
-    if (e?.ctrlKey && (key === 'h' || key === 'H')) {
-      window.alert('Logging you out');
-      this.logOut();
-    }
-  };
-
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown);
-  }
-
-  markNotificationAsRead = (id) => {
+  const markNotificationAsRead = useCallback((id) => {
     console.log(`Notification ${id} has been marked as read`);
-    this.setState((prevState) => ({
-      notifications: prevState.notifications.filter((n) => n.id !== id),
-    }));
-  };
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  }, []);
 
-  render() {
-    const { displayDrawer, user, logout, notifications, courses } = this.state;
-    const contextValue = { user, logOut: logout };
+  const contextValue = { user, logOut };
 
-    return (
-      <AppContext.Provider value={contextValue}>
-        <>
+  return (
+    <AppContext.Provider value={contextValue}>
+      <>
         <Notifications
           displayDrawer={displayDrawer}
           notifications={notifications}
-          handleDisplayDrawer={this.handleDisplayDrawer}
-          handleHideDrawer={this.handleHideDrawer}
-          markNotificationAsRead={this.markNotificationAsRead}
+          handleDisplayDrawer={handleDisplayDrawer}
+          handleHideDrawer={handleHideDrawer}
+          markNotificationAsRead={markNotificationAsRead}
         />
         <div className="App">
           <Header />
@@ -112,11 +71,11 @@ class App extends Component {
           <main className="App-body">
             {!user.isLoggedIn ? (
               <BodySectionWithMarginBottom title="Log in to continue">
-                <Login logIn={this.logIn} email={user.email} password={user.password} />
+                <Login logIn={logIn} email={user.email} password={user.password} />
               </BodySectionWithMarginBottom>
             ) : (
               <BodySectionWithMarginBottom title="Course list">
-                <CourseList courses={courses} />
+                <CourseList courses={defaultCourses} />
               </BodySectionWithMarginBottom>
             )}
 
@@ -128,9 +87,8 @@ class App extends Component {
           <Footer />
         </div>
       </>
-      </AppContext.Provider>
-    );
-  }
+    </AppContext.Provider>
+  );
 }
 
 export default App;
