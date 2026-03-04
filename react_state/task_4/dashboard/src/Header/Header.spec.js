@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Header from './Header';
-import newContext from '../Context/context';
+import AppContext from '../Context/context';
 
 describe('Header', () => {
   test('renders the title', () => {
@@ -27,9 +27,9 @@ describe('Header', () => {
       logOut: () => {},
     };
     render(
-      <newContext.Provider value={contextValue}>
+      <AppContext.Provider value={contextValue}>
         <Header />
-      </newContext.Provider>
+      </AppContext.Provider>
     );
     expect(document.querySelector('#logoutSection')).toBeInTheDocument();
   });
@@ -41,9 +41,9 @@ describe('Header', () => {
       logOut: logOutSpy,
     };
     render(
-      <newContext.Provider value={contextValue}>
+      <AppContext.Provider value={contextValue}>
         <Header />
-      </newContext.Provider>
+      </AppContext.Provider>
     );
     fireEvent.click(screen.getByText('logout'));
     expect(logOutSpy).toHaveBeenCalledTimes(1);

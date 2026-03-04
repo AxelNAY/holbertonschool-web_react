@@ -37,4 +37,5 @@ function CourseList({ courses = [] }) {
   );
 }
 
-export default WithLogging(CourseList);
+const CourseListWithLogging = WithLogging(CourseList);
+export default CourseListWithLogging;

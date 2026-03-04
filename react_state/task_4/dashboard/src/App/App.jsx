@@ -10,7 +10,7 @@ import { getLatestNotification } from '../utils/utils';
 
 import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
-import newContext from '../Context/context';
+import AppContext from '../Context/context';
 
 const defaultNotifications = [
   { id: 1, type: 'default', value: 'New course available' },
@@ -97,7 +97,7 @@ class App extends Component {
     const contextValue = { user, logOut: logout };
 
     return (
-      <newContext.Provider value={contextValue}>
+      <AppContext.Provider value={contextValue}>
         <>
         <Notifications
           displayDrawer={displayDrawer}
@@ -128,7 +128,7 @@ class App extends Component {
           <Footer />
         </div>
       </>
-      </newContext.Provider>
+      </AppContext.Provider>
     );
   }
 }

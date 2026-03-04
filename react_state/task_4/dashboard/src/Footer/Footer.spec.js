@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Footer from './Footer';
-import newContext from '../Context/context';
+import AppContext from '../Context/context';
 
 const renderWithContext = (contextValue) =>
   render(
-    <newContext.Provider value={contextValue}>
+    <AppContext.Provider value={contextValue}>
       <Footer />
-    </newContext.Provider>
+    </AppContext.Provider>
   );
 
 describe('Footer', () => {
