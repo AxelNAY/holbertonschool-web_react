@@ -10,7 +10,7 @@ import { getLatestNotification } from '../utils/utils';
 
 import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
-import AppContext from '../Context/context';
+import AppContext, { defaultUser } from '../Context/context';
 
 function App() {
   const [displayDrawer, setDisplayDrawer] = useState(true);
@@ -58,7 +58,7 @@ function App() {
   }, []);
 
   const logOut = useCallback(() => {
-    setUser({ email: '', password: '', isLoggedIn: false });
+    setUser(defaultUser);
   }, []);
 
   const handleDisplayDrawer = useCallback(() => {
