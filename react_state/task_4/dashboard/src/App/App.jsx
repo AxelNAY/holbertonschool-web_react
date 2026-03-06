@@ -87,9 +87,9 @@ class App extends Component {
 
   markNotificationAsRead = (id) => {
     console.log(`Notification ${id} has been marked as read`);
-    this.setState({
-      notifications: this.state.notifications.filter(notif => notif.id !== id)
-    });
+    this.setState((prevState) => ({
+      notifications: prevState.notifications.filter((n) => n.id !== id),
+    }));
   };
 
   render() {
