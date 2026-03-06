@@ -69,14 +69,10 @@ function App() {
     setDisplayDrawer(false);
   }, []);
 
-  markNotificationAsRead = (id) => {
+  const markNotificationAsRead = useCallback((id) => {
     console.log(`Notification ${id} has been marked as read`);
-    this.setState((prev) => ({
-      notifications: prev.notifications.filter(
-        (notification) => notification.id !== id
-      ),
-    }));
-  };
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  }, []);
 
   const contextValue = { user, logOut };
 
