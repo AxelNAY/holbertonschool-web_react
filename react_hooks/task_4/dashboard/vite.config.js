@@ -8,4 +8,7 @@ export default defineConfig({
     tailwindcss()
   ],
   base: '/holbertonschool-web_react/',
+  define: {
+    __BASE_URL__: JSON.stringify('/holbertonschool-web_react/'),
+  },
 })

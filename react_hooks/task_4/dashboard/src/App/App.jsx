@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import axios from 'axios';
 
 import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
@@ -11,18 +12,6 @@ import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import AppContext from '../Context/context';
 
-const notificationsList = [
-  { id: 1, type: 'default', value: 'New course available' },
-  { id: 2, type: 'urgent', value: 'New resume available' },
-  { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
-];
-
-const defaultCourses = [
-  { id: 1, name: 'ES6', credit: 60 },
-  { id: 2, name: 'Webpack', credit: 20 },
-  { id: 3, name: 'React', credit: 40 },
-];
-
 function App() {
   const [displayDrawer, setDisplayDrawer] = useState(true);
   const [user, setUser] = useState({
@@ -30,7 +19,39 @@ function App() {
     password: '',
     isLoggedIn: false,
   });
-  const [notifications, setNotifications] = useState(notificationsList);
+  const [notifications, setNotifications] = useState([]);
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get(`${__BASE_URL__}notifications.json`);
+        const data = response.data.notifications.map((n) =>
+          n.html ? { ...n, html: { __html: getLatestNotification() } } : n
+        );
+        setNotifications(data);
+      } catch (error) {
+        if (process.env.NODE_ENV !== 'production') {
+          console.error(error);
+        }
+      }
+    };
+    fetchNotifications();
+  }, []);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get(`${__BASE_URL__}courses.json`);
+        setCourses(response.data.courses);
+      } catch (error) {
+        if (process.env.NODE_ENV !== 'production') {
+          console.error(error);
+        }
+      }
+    };
+    fetchCourses();
+  }, [user]);
 
   const logIn = useCallback((email, password) => {
     setUser({ email, password, isLoggedIn: true });
@@ -75,7 +96,7 @@ function App() {
               </BodySectionWithMarginBottom>
             ) : (
               <BodySectionWithMarginBottom title="Course list">
-                <CourseList courses={defaultCourses} />
+                <CourseList courses={courses} />
               </BodySectionWithMarginBottom>
             )}
 
