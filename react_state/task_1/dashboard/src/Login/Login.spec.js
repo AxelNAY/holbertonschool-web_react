@@ -33,4 +33,30 @@ describe('Login', () => {
 
     expect(submitBtn).toBeEnabled();
   });
+
+  test('Should accept only valid email', () => {
+    render(<Login />);
+    const submitBtn = screen.getByRole('button', { name: /ok/i });
+
+    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password123' } });
+
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'invalid-email' } });
+    expect(submitBtn).toBeDisabled();
+
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+    expect(submitBtn).toBeEnabled();
+  });
+
+  test('Should accept passwords of at least 8 characters', () => {
+    render(<Login />);
+    const submitBtn = screen.getByRole('button', { name: /ok/i });
+
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+
+    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'short' } });
+    expect(submitBtn).toBeDisabled();
+
+    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password123' } });
+    expect(submitBtn).toBeEnabled();
+  });
 });
