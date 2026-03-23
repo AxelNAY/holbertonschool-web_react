@@ -1,5 +1,5 @@
-import CourseListRow from "./CourseListRow";
-import WithLogging from "../components/HOC/WithLogging";
+import CourseListRow from "./CourseListRow/CourseListRow";
+import WithLogging from "../../components/HOC/WithLogging";
 
 function CourseList({ courses = [] }) {
   return (

@@ -35,8 +35,8 @@ async function loadCourses() {
 // When null (all other tests), the real component renders unchanged.
 let mockCapturedRefs = null;
 
-jest.mock('../Notifications/Notifications', () => {
-  const { default: RealNotifications } = jest.requireActual('../Notifications/Notifications');
+jest.mock('../components/Notifications/Notifications', () => {
+  const { default: RealNotifications } = jest.requireActual('../components/Notifications/Notifications');
   return function NotificationsSpy(props) {
     if (mockCapturedRefs !== null) {
       mockCapturedRefs.push(props.markNotificationAsRead);
@@ -45,7 +45,7 @@ jest.mock('../Notifications/Notifications', () => {
   };
 });
 
-import App from './App';
+import App from '../App';
 
 afterEach(() => {
   mockAxios.reset();
