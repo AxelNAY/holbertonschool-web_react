@@ -1,41 +1,106 @@
-import PropTypes from 'prop-types';
-import WithLogging from '../../components/HOC/WithLogging';
-import useLogin from '../../hooks/useLogin';
+import { StyleSheet, css } from "aphrodite";
+import WithLogging from "../../components/HOC/WithLogging";
+import useLogin from "../../hooks/useLogin";
 
-function Login({ logIn }) {
-  const { email, password, enableSubmit, handleChangeEmail, handleChangePassword } = useLogin();
+const styles = StyleSheet.create({
+  body: {
+    display: "flex",
+    flexDirection: "column",
+    height: "60vh",
+    padding: "20px 20px 20px 40px",
+    borderTop: "5px red solid",
+  },
+  p: {
+    fontFamily: "Roboto, sans-serif",
+    fontSize: "1.3rem",
+  },
+  form: {
+    margin: "20px 0",
+    fontSize: "1.2rem",
+    fontFamily: "Roboto, sans-serif",
+    display: "flex",
+    flexDirection: "row",
+    "@media (max-width: 900px)": {
+      flexDirection: "column",
+    },
+  },
+  label: {
+    paddingRight: "10px",
+    "@media (max-width: 900px)": {
+      display: "block",
+    },
+  },
+  input: {
+    marginRight: "10px",
+    "@media (max-width: 900px)": {
+      display: "block",
+      marginBottom: "10px",
+      paddingBottom: "5px",
+      paddingTop: "5px",
+      fontSize: "20px",
+      width: "100%",
+      boxSizing: "border-box",
+    },
+  },
+  button: {
+    cursor: "pointer",
+    "@media (max-width: 900px)": {
+      display: "block",
+      marginTop: "10px",
+      paddingBottom: "5px",
+      paddingTop: "5px",
+      fontSize: "16px",
+      width: "100%",
+      boxSizing: "border-box",
+    },
+  },
+});
 
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
-    logIn(email, password);
-  };
+const Login = ({ logIn }) => {
+  const {
+    email,
+    password,
+    enableSubmit,
+    handleChangeEmail,
+    handleChangePassword,
+    handleLoginSubmit
+  } = useLogin(logIn);
 
   return (
-    <div className="App-body p-[10px]">
-      <div className="border-t-[3px] border-[var(--main-color)] pt-2">
-        <p className="text-sm mb-2">Login to access the full dashboard</p>
-
-        <form className="App-login inline-flex items-center gap-2 flex-wrap" onSubmit={handleLoginSubmit}>
-          <label htmlFor="email" className="ml-4 mr-2">Email</label>
-          <input id="email" type="email" className="border border-gray-300 px-2 py-1 mr-2 rounded" value={email} onChange={handleChangeEmail} />
-
-          <label htmlFor="password" className="ml-4 mr-2">Password</label>
-          <input id="password" type="password" className="border border-gray-300 px-2 py-1 mr-2 rounded" value={password} onChange={handleChangePassword} />
-
-          <input type="submit" value="OK" className="px-3 py-1 border rounded text-xs" disabled={!enableSubmit} />
-        </form>
-      </div>
+    <div className={css(styles.body)}>
+      <p className={css(styles.p)}>Login to access the full dashboard</p>
+      <form className={css(styles.form)} onSubmit={handleLoginSubmit}>
+        <label htmlFor="email" className={css(styles.label)}>
+          Email
+        </label>
+        <input
+          type="email"
+          name="user_email"
+          id="email"
+          className={css(styles.input)}
+          value={email}
+          onChange={handleChangeEmail}
+        />
+        <label htmlFor="password" className={css(styles.label)}>
+          Password
+        </label>
+        <input
+          type="password"
+          name="user_password"
+          id="password"
+          className={css(styles.input)}
+          value={password}
+          onChange={handleChangePassword}
+        />
+        <input
+          type="submit"
+          value="OK"
+          className={css(styles.button)}
+          disabled={!enableSubmit}
+        />
+      </form>
     </div>
   );
 }
 
-Login.defaultProps = {
-  logIn: () => {},
-};
-
-Login.propTypes = {
-  logIn: PropTypes.func,
-};
-
-const LoginWithLogging = WithLogging(Login);
-export default LoginWithLogging;
+export default WithLogging(Login);

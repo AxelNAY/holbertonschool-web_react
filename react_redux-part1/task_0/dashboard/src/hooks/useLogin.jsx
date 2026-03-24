@@ -1,32 +1,50 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
-export default function useLogin(initialEmail = '', initialPassword = '') {
-  const [email, setEmail] = useState(initialEmail);
-  const [password, setPassword] = useState(initialPassword);
+export default function useLogin(onLogin) {
   const [enableSubmit, setEnableSubmit] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
 
-  const updateEnableSubmit = useCallback((newEmail, newPassword) => {
-    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail);
-    setEnableSubmit(validEmail && newPassword.length >= 8);
-  }, []);
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
-  const handleChangeEmail = useCallback(
-    (e) => {
-      const newEmail = e.target.value;
-      setEmail(newEmail);
-      updateEnableSubmit(newEmail, password);
-    },
-    [password, updateEnableSubmit]
-  );
+  const handleChangeEmail = (e) => {
+    const newEmail = e.target.value;
+    const { password } = formData;
+    
+    setFormData(prev => ({
+      ...prev,
+      email: newEmail
+    }));
+    setEnableSubmit(validateEmail(newEmail) && password.length >= 8);
+  };
 
-  const handleChangePassword = useCallback(
-    (e) => {
-      const newPassword = e.target.value;
-      setPassword(newPassword);
-      updateEnableSubmit(email, newPassword);
-    },
-    [email, updateEnableSubmit]
-  );
+  const handleChangePassword = (e) => {
+    const newPassword = e.target.value;
+    const { email } = formData;
+    
+    setFormData(prev => ({
+      ...prev,
+      password: newPassword
+    }));
+    setEnableSubmit(validateEmail(email) && newPassword.length >= 8);
+  };
 
-  return { email, password, enableSubmit, handleChangeEmail, handleChangePassword };
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    onLogin(formData.email, formData.password);
+  };
+
+  return {
+    email: formData.email,
+    password: formData.password,
+    enableSubmit,
+    handleChangeEmail,
+    handleChangePassword,
+    handleLoginSubmit
+  };
 }

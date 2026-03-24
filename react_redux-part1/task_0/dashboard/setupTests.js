@@ -1,3 +1,10 @@
 import '@testing-library/jest-dom';
+import { StyleSheetTestUtils } from 'aphrodite';
 
-globalThis.__BASE_URL__ = '/';
+beforeEach(() => {
+  StyleSheetTestUtils.suppressStyleInjection();
+});
+
+afterEach(() => {
+  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});

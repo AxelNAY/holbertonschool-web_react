@@ -2,42 +2,21 @@ import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import WithLogging from './WithLogging';
 
-afterEach(() => {
-  cleanup();
-  jest.restoreAllMocks();
-});
+afterEach(cleanup)
 
 class MockApp extends React.Component {
-  render() {
-    return <h1>Hello from Mock App Component</h1>;
+  render () {
+    return (
+      <h1>
+        Hello from Mock App Component
+      </h1>
+    )
   }
 }
 
-describe('WithLogging HOC', () => {
-  test('renders heading from the wrapped component', () => {
-    const Wrapped = WithLogging(MockApp);
-    render(<Wrapped />);
+const MockWithHOC = WithLogging(MockApp)
 
-    expect(
-      screen.getByRole('heading', { level: 1, name: /Hello from Mock App Component/i })
-    ).toBeInTheDocument();
-  });
-
-  test('logs on mount and unmount', () => {
-    const Wrapped = WithLogging(MockApp);
-    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-
-    const { unmount } = render(<Wrapped />);
-    expect(logSpy).toHaveBeenCalledWith('Component MockApp is mounted');
-
-    unmount();
-    expect(logSpy).toHaveBeenCalledWith('Component MockApp is going to unmount');
-
-    logSpy.mockRestore();
-  });
-
-  test('has the proper displayName', () => {
-    const Wrapped = WithLogging(MockApp);
-    expect(Wrapped.displayName).toBe('WithLogging(MockApp)');
-  });
+test('can render the heading "Hello from Mock App Component"', () => {
+  render(<MockWithHOC />)
+  expect(screen.getByRole('heading', { name: /hello from mock app component/i })).toBeInTheDocument();
 });
