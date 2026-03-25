@@ -24,7 +24,7 @@ export default function Footer() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = useSelector((state) => state.auth.user);
 
-  return user ? (
+  return (
     <div className={css(styles.footer)}>
       <p className={css(styles.p)}>
         Copyright {getCurrentYear()} - {getFooterCopy(true)}
@@ -35,5 +35,5 @@ export default function Footer() {
         </span>
       )}
     </div>
-  ) : null;
+  );
 }
