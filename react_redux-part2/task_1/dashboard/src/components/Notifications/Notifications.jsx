@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     marginTop: "20px",
     opacity: 0,
     visibility: "hidden",
-    transition: "opacity 0.3s ease, visibility 0.3s ease",
     "@media (max-width: 900px)": {
       position: "fixed",
       top: 0,
@@ -97,6 +96,7 @@ const styles = StyleSheet.create({
 const Notifications = memo(function Notifications() {
   const dispatch = useDispatch();
   const notifications = useSelector((state) => state.notifications.notifications);
+  const loading = useSelector((state) => state.notifications.loading);
   const DrawerRef = useRef(null);
 
   const handleToggleDrawer = () => {
@@ -125,7 +125,9 @@ const Notifications = memo(function Notifications() {
         data-testid="notifications-drawer"
         className={css(styles.notificationItems)}
       >
-        {notifications.length > 0 ? (
+        {loading ? (
+          <p className={css(styles.p)}>Loading...</p>
+        ) : notifications.length > 0 ? (
           <>
             <p className={css(styles.p)}>Here is the list of notifications</p>
             <button
