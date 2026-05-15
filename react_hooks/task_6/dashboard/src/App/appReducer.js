@@ -23,7 +23,7 @@ export function appReducer(state = initialState, action) {
     case APP_ACTIONS.LOGIN:
       return { ...state, user: { ...action.payload, isLoggedIn: true } };
     case APP_ACTIONS.LOGOUT:
-      return { ...state, user: initialState.user };
+      return { ...state, user: { ...initialState.user } };
     case APP_ACTIONS.TOGGLE_DRAWER:
       return { ...state, displayDrawer: !state.displayDrawer };
     case APP_ACTIONS.MARK_NOTIFICATION_READ:
